@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, ART } from "react-native";
+import { Platform, StyleSheet, Text, View, ART, FlatList } from "react-native";
 import PieChart from "react-native-pie-chart";
 const { Surface, Group, Path, Shape } = ART;
 
@@ -33,16 +33,47 @@ export default class App extends Component<Props> {
     return <Shape d={coverPath} fill={"red"} />;
   }
 
-  render() {
+  _renderItem = ({ item, index }) => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          flex: 1,
+          marginTop: 10,
+          alignItems: "center"
+        }}
+      >
+        <View
+          style={{
+            width: 20,
+            height: 20,
+            backgroundColor: item
+          }}
+        />
+        <Text
+          style={{
+            marginLeft: 10,
+            color: item
+          }}
+        >
+          adadadad
+        </Text>
+      </View>
+    );
+  };
+
+  _renderCusPieChart = () => {
     const chart_wh = 250;
     const series = [123, 321, 123, 789, 537];
     const sliceColor = ["#F44336", "#2196F3", "#FFEB3B", "#4CAF50", "#FF9800"];
     return (
-      <View style={styles.container}>
-        <Surface>{this.handleCover()}</Surface>
-        <Text style={styles.title}>Basic</Text>
-        <PieChart chart_wh={chart_wh} series={series} sliceColor={sliceColor} />
-        <Text style={styles.title}>Doughnut</Text>
+      <View
+        style={{
+          // backgroundColor: "red",
+          width: "100%",
+          alignItems:'center'
+        }}
+      >
         <View
           style={{
             // backgroundColor: "red",
@@ -83,8 +114,27 @@ export default class App extends Component<Props> {
             <Text>trong 09/2018</Text>
           </View>
         </View>
+
+        <View
+          style={{
+            marginTop: 20,
+            width: "100%",
+            paddingHorizontal: 20
+          }}
+        >
+          <FlatList
+            data={sliceColor}
+            renderItem={this._renderItem}
+            numColumns={2}
+            scrollEnabled={false}
+          />
+        </View>
       </View>
     );
+  };
+
+  render() {
+    return <View style={styles.container}>{this._renderCusPieChart()}</View>;
   }
 }
 
